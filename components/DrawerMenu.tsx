@@ -1,6 +1,6 @@
 // Translated from SwiftUI MenuView.swift
 // Slide-out left drawer with category navigation links
-// SF Symbols → Ionicons mapping
+// IMP-003: Privacy Policy link added at the bottom
 
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
@@ -22,6 +22,11 @@ export default function DrawerMenu({ onClose }: Props) {
     router.push(`/category/${encodeURIComponent(category)}`)
   }
 
+  function handlePrivacy() {
+    onClose()
+    router.push('/privacy')
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.list}>
@@ -34,6 +39,12 @@ export default function DrawerMenu({ onClose }: Props) {
             <View style={styles.divider} />
           </View>
         ))}
+
+        {/* Privacy Policy — required by Google Play */}
+        <TouchableOpacity style={styles.row} onPress={handlePrivacy}>
+          <Ionicons name="shield-checkmark-outline" size={16} color={Colors.consciousness} />
+          <Text style={styles.privacyLabel}>Privacy Policy</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   )
@@ -47,7 +58,7 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingHorizontal: 16,
-    paddingTop: 70, // clear the status bar area
+    paddingTop: 70,
     paddingBottom: 40,
   },
   row: {
@@ -64,5 +75,10 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: Colors.divider,
+  },
+  privacyLabel: {
+    color: Colors.consciousness,
+    fontSize: 14,
+    letterSpacing: 1.8,
   },
 })
