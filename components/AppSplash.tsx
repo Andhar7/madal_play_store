@@ -4,9 +4,7 @@
 
 import React, { useEffect, useRef } from 'react'
 import {
-  View,
   Text,
-  Image,
   StyleSheet,
   Animated,
   Dimensions,

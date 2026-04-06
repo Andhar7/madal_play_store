@@ -6,6 +6,7 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { Colors } from '@/constants/colors'
 import { menuItems } from '@/constants/data'
 import { DRAWER_WIDTH } from '@/hooks/useDrawer'
@@ -16,6 +17,7 @@ interface Props {
 
 export default function DrawerMenu({ onClose }: Props) {
   const router = useRouter()
+  const insets = useSafeAreaInsets()
 
   function handleSelect(category: string) {
     onClose()
@@ -24,12 +26,12 @@ export default function DrawerMenu({ onClose }: Props) {
 
   function handlePrivacy() {
     onClose()
-    router.push('/privacy')
+    router.push('/privacy' as any)
   }
 
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.list}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[styles.list, { paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 }]}>
         {menuItems.map(item => (
           <View key={item.id}>
             <TouchableOpacity style={styles.row} onPress={() => handleSelect(item.id)}>
@@ -58,8 +60,6 @@ const styles = StyleSheet.create({
   },
   list: {
     paddingHorizontal: 16,
-    paddingTop: 70,
-    paddingBottom: 40,
   },
   row: {
     flexDirection: 'row',

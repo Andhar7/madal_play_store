@@ -15,8 +15,9 @@ import {
   ActivityIndicator,
   BackHandler,
   Alert,
+  StatusBar,
 } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { WebView } from 'react-native-webview'
 import { Ionicons } from '@expo/vector-icons'
 import DrawerMenu from '@/components/DrawerMenu'
@@ -26,6 +27,7 @@ import { useDrawer, DRAWER_WIDTH } from '@/hooks/useDrawer'
 const { width: SCREEN_WIDTH } = Dimensions.get('window')
 
 export default function OpeningPage() {
+  const insets = useSafeAreaInsets()
   const { isOpen, open, close, slideAnim } = useDrawer()
   const webViewRef = useRef<WebView>(null)
   const [loading, setLoading] = useState(true)
@@ -55,6 +57,7 @@ export default function OpeningPage() {
 
   return (
     <View style={styles.root}>
+      <StatusBar hidden />
       <View style={styles.drawer}>
         <DrawerMenu onClose={close} />
       </View>
@@ -85,7 +88,8 @@ export default function OpeningPage() {
             <WebView
               ref={webViewRef}
               source={{ uri: 'https://www.srichinmoy.org' }}
-              style={styles.webview}
+              style={[styles.webview, { marginBottom: insets.bottom }]}
+              userAgent="Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
               onLoadStart={() => setLoading(true)}
               onLoadEnd={() => setLoading(false)}
               onError={() => { setLoading(false); setError(true) }}
@@ -116,8 +120,8 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: Colors.unity },
   drawer: { position: 'absolute', left: 0, top: 0, bottom: 0, width: DRAWER_WIDTH },
   content: { flex: 1, width: SCREEN_WIDTH, backgroundColor: Colors.unity },
-  header: { backgroundColor: Colors.unity, paddingHorizontal: 8, paddingTop: 24, paddingBottom: 8 },
-  menuBtn: { padding: 8 },
+  header: { backgroundColor: Colors.unity, paddingHorizontal: 4, paddingVertical: 2 },
+  menuBtn: { padding: 6 },
   webview: { flex: 1 },
   loadingOverlay: {
     ...StyleSheet.absoluteFillObject,

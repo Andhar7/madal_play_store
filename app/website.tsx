@@ -12,8 +12,9 @@ import {
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
+  StatusBar,
 } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { WebView } from 'react-native-webview'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
@@ -26,6 +27,7 @@ import { useFavourites } from '@/hooks/useFavourites'
 const { width: SCREEN_WIDTH } = Dimensions.get('window')
 
 export default function WebsiteScreen() {
+  const insets = useSafeAreaInsets()
   const { id, url, category } = useLocalSearchParams<{
     id: string
     url: string
@@ -52,6 +54,7 @@ export default function WebsiteScreen() {
 
   return (
     <View style={styles.root}>
+      <StatusBar hidden />
       <View style={styles.drawer}>
         <DrawerMenu onClose={close} />
       </View>
@@ -93,7 +96,8 @@ export default function WebsiteScreen() {
             <WebView
               ref={webViewRef}
               source={{ uri: url }}
-              style={styles.webview}
+              style={[styles.webview, { marginBottom: insets.bottom }]}
+              userAgent="Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
               onLoadStart={() => setLoading(true)}
               onLoadEnd={() => setLoading(false)}
               onError={() => { setLoading(false); setError(true) }}
@@ -124,8 +128,8 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: Colors.unity },
   drawer: { position: 'absolute', left: 0, top: 0, bottom: 0, width: DRAWER_WIDTH },
   content: { flex: 1, width: SCREEN_WIDTH, backgroundColor: Colors.unity },
-  safeArea: { backgroundColor: Colors.unity, paddingTop: 24 },
-  headerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 8, paddingBottom: 8 },
+  safeArea: { backgroundColor: Colors.unity },
+  headerRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 4, paddingVertical: 2 },
   backBtn: { flexDirection: 'row', alignItems: 'center', gap: 4, padding: 8 },
   backLabel: { color: Colors.white, fontSize: 19, letterSpacing: 2.4 },
   rightButtons: { flexDirection: 'row', alignItems: 'center' },
