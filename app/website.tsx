@@ -39,6 +39,7 @@ export default function WebsiteScreen() {
   const webViewRef = useRef<WebView>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
+  const retryCount = useRef(0)
 
   const starred = isFavourite(url)
 
@@ -46,7 +47,18 @@ export default function WebsiteScreen() {
     if (starred) { remove(url) } else { add({ id, category, url }) }
   }
 
+  function handleError() {
+    if (retryCount.current < 1) {
+      retryCount.current += 1
+      webViewRef.current?.reload()
+    } else {
+      setLoading(false)
+      setError(true)
+    }
+  }
+
   function handleRetry() {
+    retryCount.current = 0
     setError(false)
     setLoading(true)
     webViewRef.current?.reload()
@@ -98,10 +110,11 @@ export default function WebsiteScreen() {
               source={{ uri: url }}
               style={[styles.webview, { marginBottom: insets.bottom }]}
               userAgent="Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
+              javaScriptEnabled={true}
+              domStorageEnabled={true}
               onLoadStart={() => setLoading(true)}
-              onLoadEnd={() => setLoading(false)}
-              onError={() => { setLoading(false); setError(true) }}
-              onHttpError={() => { setLoading(false); setError(true) }}
+              onLoadEnd={() => { setLoading(false); retryCount.current = 0 }}
+              onError={handleError}
             />
             {/* BUG-003: Loading indicator */}
             {loading && (
