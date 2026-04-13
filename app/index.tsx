@@ -4,7 +4,7 @@
 // BUG-002 fix: Back button confirmation dialog (Android)
 // BUG-003 fix: Loading indicator while page loads
 
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import {
   View,
   Text,
@@ -33,6 +33,18 @@ export default function OpeningPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const retryCount = useRef(0)
+  const loadingTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Clear timeout helper
+  const clearLoadingTimer = useCallback(() => {
+    if (loadingTimer.current) {
+      clearTimeout(loadingTimer.current)
+      loadingTimer.current = null
+    }
+  }, [])
+
+  // Cleanup timeout on unmount
+  useEffect(() => () => clearLoadingTimer(), [clearLoadingTimer])
 
   // BUG-002: Intercept Android hardware back button — show Exit confirmation
   useEffect(() => {
@@ -51,6 +63,7 @@ export default function OpeningPage() {
   }, [])
 
   function handleError() {
+    clearLoadingTimer()
     if (retryCount.current < 1) {
       retryCount.current += 1
       webViewRef.current?.reload()
@@ -104,9 +117,20 @@ export default function OpeningPage() {
               userAgent="Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
               javaScriptEnabled={true}
               domStorageEnabled={true}
-              onLoadStart={() => setLoading(true)}
-              onLoadEnd={() => { setLoading(false); retryCount.current = 0 }}
+              onLoadStart={() => {
+                setLoading(true)
+                clearLoadingTimer()
+                loadingTimer.current = setTimeout(handleError, 30000)
+              }}
+              onLoadEnd={() => {
+                clearLoadingTimer()
+                setLoading(false)
+                retryCount.current = 0
+              }}
               onError={handleError}
+              onHttpError={({ nativeEvent }) => {
+                if (nativeEvent.statusCode >= 400) handleError()
+              }}
             />
             {/* BUG-003: Loading indicator */}
             {loading && (

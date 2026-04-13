@@ -90,7 +90,6 @@ export const websiteItems: WebsiteItem[] = [
   // Peace Run
   { id: 'Peace Run', category: 'Peace Run', url: 'https://www.peacerun.org' },
   { id: 'Peace Run About', category: 'Peace Run', url: 'https://www.peacerun.org/gb/about/' },
-  { id: 'Schools and Children', category: 'Peace Run', url: 'https://www.peacerun.org/gb/schools-and-kids/' },
   { id: 'Media', category: 'Peace Run', url: 'https://www.peacerun.org/gb/media/' },
   { id: 'Friends', category: 'Peace Run', url: 'https://www.peacerun.org/gb/friends/' },
   { id: 'Torch-Bearer Award', category: 'Peace Run', url: 'https://www.peacerun.org/gb/torch-bearer-award/' },
