@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 16.0.0"
+    "version": ">= 18.0.3",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
@@ -8,30 +9,13 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal",
-      "android": {
-        "buildType": "apk"
-      }
+      "distribution": "internal"
     },
     "production": {
-      "android": {
-        "buildType": "app-bundle"
-      },
-      "ios": {
-        "credentialsSource": "remote"
-      }
+      "autoIncrement": true
     }
   },
   "submit": {
-    "production": {
-      "android": {
-        "serviceAccountKeyPath": "./google-service-account.json",
-        "track": "production"
-      },
-      "ios": {
-        "appleId": "your@email.com",
-        "ascAppId": "YOUR_APP_STORE_CONNECT_APP_ID"
-      }
-    }
+    "production": {}
   }
 }
