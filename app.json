@@ -10,8 +10,9 @@
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
     "android": {
-      "package": "com.andhar7.madal",
-      "versionCode": 5,
+      "package": "com.andhar7.madalapp",
+      "versionCode": 6,
+      "usesCleartextTraffic": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#110A40"
