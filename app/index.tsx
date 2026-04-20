@@ -32,7 +32,6 @@ export default function OpeningPage() {
   const webViewRef = useRef<WebView>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  const retryCount = useRef(0)
   const loadingTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   // Clear timeout helper
@@ -64,20 +63,13 @@ export default function OpeningPage() {
 
   function handleError() {
     clearLoadingTimer()
-    if (retryCount.current < 1) {
-      retryCount.current += 1
-      webViewRef.current?.reload()
-    } else {
-      setLoading(false)
-      setError(true)
-    }
+    setLoading(false)
+    setError(true)
   }
 
   function handleRetry() {
-    retryCount.current = 0
     setError(false)
     setLoading(true)
-    webViewRef.current?.reload()
   }
 
   return (
@@ -112,7 +104,7 @@ export default function OpeningPage() {
           <>
             <WebView
               ref={webViewRef}
-              source={{ uri: 'https://www.srichinmoy.org' }}
+              source={{ uri: 'https://srichinmoy.org' }}
               style={[styles.webview, { marginBottom: insets.bottom }]}
               userAgent="Mozilla/5.0 (Linux; Android 10; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
               javaScriptEnabled={true}
@@ -125,12 +117,23 @@ export default function OpeningPage() {
               onLoadEnd={() => {
                 clearLoadingTimer()
                 setLoading(false)
-                retryCount.current = 0
               }}
               onError={handleError}
               onHttpError={({ nativeEvent }) => {
                 if (nativeEvent.statusCode >= 400) handleError()
               }}
+              renderError={() => (
+                <View style={styles.renderErrorContainer}>
+                  <Ionicons name="cloud-offline-outline" size={64} color={Colors.consciousness} />
+                  <Text style={styles.errorTitle}>Unable to Load</Text>
+                  <Text style={styles.errorMessage}>
+                    Please check your internet connection and try again.
+                  </Text>
+                  <TouchableOpacity style={styles.retryBtn} onPress={handleRetry}>
+                    <Text style={styles.retryText}>Retry</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
             />
             {/* BUG-003: Loading indicator */}
             {loading && (
@@ -173,6 +176,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     gap: 16,
   },
+  renderErrorContainer: { ...StyleSheet.absoluteFillObject, backgroundColor: Colors.unity, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 32, gap: 16 },
   errorTitle: { color: Colors.white, fontSize: 22, fontWeight: 'bold', letterSpacing: 1.5 },
   errorMessage: { color: Colors.consciousness, fontSize: 15, textAlign: 'center', lineHeight: 22 },
   retryBtn: { marginTop: 8, paddingHorizontal: 40, paddingVertical: 14, backgroundColor: Colors.delight, borderRadius: 12 },

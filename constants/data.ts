@@ -37,12 +37,12 @@ export const menuItems: MenuItem[] = [
 
 export const websiteItems: WebsiteItem[] = [
   // Main
-  { id: 'Main', category: 'Main', url: 'https://www.srichinmoy.org' },
-  { id: 'Sri Chinmoy About', category: 'Main', url: 'https://www.srichinmoy.org/sri_chinmoy' },
-  { id: 'Spirituality', category: 'Main', url: 'https://www.srichinmoy.org/spirituality' },
-  { id: 'Service', category: 'Main', url: 'https://www.srichinmoy.org/service' },
-  { id: 'Resources', category: 'Main', url: 'https://www.srichinmoy.org/resources' },
-  { id: 'Kind Words', category: 'Main', url: 'https://www.srichinmoy.org/kind_words' },
+  { id: 'Main', category: 'Main', url: 'https://srichinmoy.org' },
+  { id: 'Sri Chinmoy About', category: 'Main', url: 'https://srichinmoy.org/sri_chinmoy' },
+  { id: 'Spirituality', category: 'Main', url: 'https://srichinmoy.org/spirituality' },
+  { id: 'Service', category: 'Main', url: 'https://srichinmoy.org/service' },
+  { id: 'Resources', category: 'Main', url: 'https://srichinmoy.org/resources' },
+  { id: 'Kind Words', category: 'Main', url: 'https://srichinmoy.org/kind_words' },
 
   // Library
   { id: 'Library Main', category: 'Library', url: 'https://www.srichinmoylibrary.com' },
