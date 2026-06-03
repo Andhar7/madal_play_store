@@ -41,7 +41,10 @@
             "usesCleartextTraffic": true
           }
         }
-      ]
+      ],
+      "expo-font",
+      "expo-web-browser",
+      "./plugins/withAgeSignals"
     ],
     "experiments": {
       "typedRoutes": true,
