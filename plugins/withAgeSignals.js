@@ -13,8 +13,8 @@ const KOTLIN_MODULE = `package com.andhar7.madalapp.agesignals
   import com.facebook.react.bridge.ReactMethod
   import com.facebook.react.bridge.WritableNativeMap
   import com.facebook.react.uimanager.ViewManager
-  import com.google.android.play.core.agesignals.AgeSignalsManagerFactory
-  import com.google.android.play.core.agesignals.AgeSignalsRequest
+  import com.google.android.play.agesignals.AgeSignalsManagerFactory
+  import com.google.android.play.agesignals.AgeSignalsRequest
 
   class AgeSignalsModule(reactContext: ReactApplicationContext) :
       ReactContextBaseJavaModule(reactContext) {
