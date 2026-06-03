@@ -29,7 +29,7 @@ const KOTLIN_MODULE = `package com.andhar7.madalapp.agesignals
                   .checkAgeSignals(AgeSignalsRequest.builder().build())
                   .addOnSuccessListener { result ->
                       val map = WritableNativeMap()
-                      map.putString("userStatus", result.userStatus()?.name ?: "null")
+                      map.putString("userStatus", result.userStatus()?.toString() ?: "null")
                       val lower = result.ageLower()
                       val upper = result.ageUpper()
                       if (lower != null) map.putInt("ageLower", lower) else map.putNull("ageLower")
